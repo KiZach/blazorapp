@@ -16,10 +16,10 @@ jobs:
           dotnet-version: '7.0.x'# include pre-release of dotnet
           include-prerelease: true
        
-      - name: Build with dotnet# run the command for build the dotnet app
+      - name: Build with dotnet
         run: dotnet build --configuration Release
 
-      - name: dotnet publish# run the command to pack the build files and dependencies into folder for deployment
+      - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job#Reference a specific upload artifact
@@ -33,7 +33,7 @@ jobs:
     runs-on: windows-latest
     needs: build 
     environment:
-      name: 'Production'# use deploy-to-webapp step in the job and look at the output of the dependent job. Then find the webapp-url and set it for URL in the environment
+      name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
@@ -41,3 +41,12 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: .net-app
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'z4itblazor'
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
+          package: .
