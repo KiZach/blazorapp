@@ -13,7 +13,7 @@
 ## AccessTest
 - API_KEY=your_key_here
 - DATABASE_PASSWORD=your_password_here
-- NOT_GOOD_API_KEY=changeme1234
+- NOT_GOOD_API_KEY=pass4apisecret
 - NOT_GOOD_DATABASE_PASSWORD=changeme1234
 - CertTest
 
